@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             @foreach ($books as $book)
-            <tr onclick="location.href='{{url('book/'.$book->id)}}';">
+            <tr onclick="location.href='{{url('book/'.$book->slug)}}';">
                 <th scope="row">{{$loop->index + 1}}</th>
                 <td>{{$book->title}}</td>
                 <td>{{$book->author}}</td>

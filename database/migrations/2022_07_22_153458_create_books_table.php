@@ -19,6 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('author');
             $table->decimal('price', 10, 0, true);
             $table->text('description');
+            $table->string('slug');
             $table->timestamps();
         });
     }

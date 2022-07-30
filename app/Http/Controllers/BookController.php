@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -51,9 +52,9 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $book = Book::find($id);
+        $book = Book::where('slug', $slug)->first();
         return view('book.detail', compact('book'))->with('title', 'Halaman Detail');
     }
 
@@ -63,9 +64,9 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $book = Book::find($id);
+        $book = Book::where('slug', $slug)->first();
         return view('book.edit', compact('book'))->with('title', 'Halaman Edit');
     }
 
@@ -76,14 +77,15 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        $book = Book::find($id);
+        $book = Book::where('slug', $slug)->first();
         $book->update([
             'title' => $request->title,
             'author' => $request->author,
             'price' => str_replace('.', '', $request->price),
             'description' => $request->description,
+            'slug' => SlugService::createSlug(Book::class, 'slug', $request->title),
         ]);
         return redirect(url('/book'))->with('success', 'Book updated successfully');
     }

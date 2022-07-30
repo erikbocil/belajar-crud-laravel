@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Book;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -44,6 +45,7 @@ class BookSeeder extends Seeder
                     'author' => $data['author'][$i],
                     'price' => $data['price'][$i],
                     'description' => $data['description'][$i],
+                    'slug' => SlugService::createSlug(Book::class, 'slug', $data['title'][$i]),
                 ]
             );
         }

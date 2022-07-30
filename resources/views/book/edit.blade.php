@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container mt-5">
-    <form action="/book/{{$book->id}}" method="POST">
+    <form action="/book/{{$book->slug}}" method="POST">
         @method('PUT')
         @csrf 
         <div class="mb-3">
