@@ -16,7 +16,13 @@
             <a class="nav-link {{Request::is('booak') ? 'active' : '' }}" href="#">Pricing</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            @if (Session::has('loginId'))
+            <form action="{{route('logout')}}" method="post">
+              <button type="submit">logout</button> 
+            </form>
+            @else    
+            <a class="nav-link" href="{{route('login-page')}}">Login</a>
+            @endif
           </li>
         </ul>
     </div>
