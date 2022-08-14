@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,7 +10,6 @@ class AuthController extends Controller
 {
     public function login()
     {
-        session()->forget('loginId');
         return view('auth.login')->with('title', 'Halaman Login');
     }
 
@@ -56,12 +54,12 @@ class AuthController extends Controller
         return redirect()->route('login-page')->with('success', 'Register Successfully');
     }
 
-    // public function logout()
-    // {
-    //     if (session()->has('loginId')) {
-    //         session()->forget('loginId');
-    //         return redirect()->route('login-page');
-    //     }
-    //     return 'blalbalbla';
-    // }
+    public function logout()
+    {
+        if (session()->has('loginId')) {
+            session()->forget('loginId');
+            return redirect()->route('login-page')->with('success', 'Logout Successfully');
+        }
+        return 'blalbalbla';
+    }
 }

@@ -13,18 +13,21 @@
             <a class="nav-link {{Request::is('book/create') ? 'active' : '' }}" href="{{url('book/create')}}">Create</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{Request::is('booak') ? 'active' : '' }}" href="#">Pricing</a>
+            <a class="nav-link {{Request::is('booak') ? 'active' : '' }}" href="">Pricing</a>
           </li>
           <li class="nav-item">
             @if (Session::has('loginId'))
-            <form action="{{route('logout')}}" method="post">
-              <button type="submit">logout</button> 
-            </form>
+          
+              <a class="nav-link" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">logout</a> 
+    
             @else    
             <a class="nav-link" href="{{route('login-page')}}">Login</a>
             @endif
           </li>
         </ul>
-    </div>
+    </div> 
+  <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+      {{ csrf_field() }}
+  </form>
 </div>
 </nav>

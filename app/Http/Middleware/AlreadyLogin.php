@@ -17,8 +17,9 @@ class AlreadyLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session()->has('loginId') && url('login-page') === $request->url()) {
-            return back();
+        // dd(route('login-page'), $request->url());
+        if (session()->has('loginId') && route('login-page') === $request->url()) {
+            return redirect('book');
         }
         return $next($request);
     }
