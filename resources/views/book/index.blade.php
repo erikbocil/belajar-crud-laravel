@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container mt-5">
+    <h3 class="mb-5">Welcome @if (Session::has('name')){{ session('name') }}@endif</h3>
     <table class="table table-striped table-hover table-bordered">
         <thead>
             <tr>

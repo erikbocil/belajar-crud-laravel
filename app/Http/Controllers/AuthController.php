@@ -27,6 +27,7 @@ class AuthController extends Controller
             return redirect()->route('login-page')->with('error', 'Password is wrong');
         }
         $request->session()->put('loginId', $user->id);
+        $request->session()->put('name', $user->username);
         return redirect('/book');
     }
 
@@ -57,7 +58,7 @@ class AuthController extends Controller
     public function logout()
     {
         if (session()->has('loginId')) {
-            session()->forget('loginId');
+            session()->flush();
             return redirect()->route('login-page')->with('success', 'Logout Successfully');
         }
         return 'blalbalbla';

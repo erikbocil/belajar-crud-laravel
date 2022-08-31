@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container d-flex justify-content-center mt-5 mb-5">
+<div class="container d-flex justify-content-center my-5">
     <div class="col-6">
         @if (Session::has('success'))
             <div class="alert alert-primary">
