@@ -47,7 +47,7 @@ class AuthController extends Controller
         $user = new User();
         $user->email = $request->email;
         $user->username = $request->username;
-        $user->password =  Hash::make($request->password);
+        $user->password = Hash::make($request->password);
         $user->save();
         if (!$user) {
             return redirect()->route('register-page')->with('error', 'Register failed please try again');
