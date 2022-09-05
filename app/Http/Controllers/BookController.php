@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
-use Cviebrock\EloquentSluggable\Services\SlugService;
-use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -35,15 +35,10 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'author' => 'required',
-            'price' => 'required',
-        ]);
-        Book::create($request->all());
-        return redirect(url('book'))->with('success', 'Book added successfully');
+        Book::create($request->validated());
+        return redirect(url('book'))->with('message', 'Book added successfully');
     }
 
     /**
@@ -52,9 +47,8 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Book $book)
     {
-        $book = Book::where('slug', $slug)->first();
         return view('book.detail', compact('book'))->with('title', 'Halaman Detail');
     }
 
@@ -64,9 +58,8 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(Book $book)
     {
-        $book = Book::where('slug', $slug)->first();
         return view('book.edit', compact('book'))->with('title', 'Halaman Edit');
     }
 
@@ -77,17 +70,10 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        $book = Book::where('slug', $slug)->first();
-        $book->update([
-            'title' => $request->title,
-            'author' => $request->author,
-            'price' => str_replace('.', '', $request->price),
-            'description' => $request->description,
-            'slug' => SlugService::createSlug(Book::class, 'slug', $request->title),
-        ]);
-        return redirect(url('/book'))->with('success', 'Book updated successfully');
+        $book->update($request->validated());
+        return redirect(url('/book'))->with('message', 'Book updated successfully');
     }
 
     /**
@@ -96,10 +82,9 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        $book = Book::find($id);
         $book->delete();
-        return redirect(url('book'))->with('success', 'Book deleted successfully');
+        return redirect(url('book'))->with('message', 'Book deleted successfully');
     }
 }

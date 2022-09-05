@@ -7,7 +7,7 @@
             <h6 class="card-subtitle mb-2 text-muted">{{$book->author}}</h6>
             <p class="card-text">{{$book->description}}</p>
             <a href="{{url('/book/'.$book->slug.'/edit')}}" class="card-link btn btn-primary">Update</a>
-            <form action="{{url('/book'. '/'. $book->id)}}" method="post" style="display: inline" id="delete-form">
+            <form action="{{url('/book'. '/'. $book->slug)}}" method="post" style="display: inline" id="delete-form">
                 @method('DELETE')
                 @csrf
                 <button type="submit" class="btn btn-danger" onclick="">Delete</button>

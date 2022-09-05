@@ -13,6 +13,11 @@ class Book extends Model
 
     protected $fillable = ['title', 'author', 'price', 'description', 'slug'];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function sluggable(): array
     {
         return [

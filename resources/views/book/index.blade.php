@@ -26,7 +26,7 @@
         </tbody>
     </table>
 </div>
-@if (Session::has('success'))
-  <script>swal("{{session('success')}}", {icon: "success",});</script>
+@if (Session::has('message'))
+  <script>swal("{{session('message')}}", {icon: "success",});</script>
 @endif
 @endsection

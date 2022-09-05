@@ -18,14 +18,14 @@
             @csrf 
             <div class="mb-3">
                 <label for="title" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" value="{{old('username')}}">
+                <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" placeholder="Enter Username" value="{{old('username')}}">
                 @error('username')
                     <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
             <div class="mb-3">
                 <label for="author" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter password">
                 @error('password')
                     <span class="text-danger">{{$message}}</span>
                 @enderror
