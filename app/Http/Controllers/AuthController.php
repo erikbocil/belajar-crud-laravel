@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,54 +15,38 @@ class AuthController extends Controller
         return view('auth.login')->with('title', 'Halaman Login');
     }
 
-    public function loginUser(Request $request)
+    public function loginUser(LoginRequest $request)
     {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required|min:8',
-        ]);
+        $request->validated();
         $user = User::where('username', '=', $request->username)->first();
         if (!$user) {
-            return redirect()->route('login-page')->with('error', 'Username not found');
+            return to_route('login.page')->with('error', 'Username not found');
         }
         if (!Hash::check($request->password, $user->password)) {
-            return redirect()->route('login-page')->with('error', 'Password is wrong');
+            return to_route('login.page')->with('error', 'Password is wrong');
         }
         $request->session()->put('loginId', $user->id);
         $request->session()->put('name', $user->username);
-        return redirect('/book');
+        return to_route('book.index');
     }
 
     public function register()
     {
-        return view('auth.register');
+        return view('auth.register')->with('title', 'Halaman Register');
     }
 
-    public function registerUser(Request $request)
+    public function registerUser(RegisterRequest $request)
     {
-        $request->validate([
-            'email' => 'required|unique:users|email',
-            'username' => 'required',
-            'password' => 'required|min:8',
-            'password-confirmation' => 'required|min:8|same:password',
-        ]);
-        $user = new User();
-        $user->email = $request->email;
-        $user->username = $request->username;
-        $user->password = Hash::make($request->password);
-        $user->save();
-        if (!$user) {
-            return redirect()->route('register-page')->with('error', 'Register failed please try again');
-        }
-        return redirect()->route('login-page')->with('success', 'Register Successfully');
+        User::create($request->validated());
+        return to_route('login-page')->with('success', 'Register Successfully');
     }
 
     public function logout()
     {
         if (session()->has('loginId')) {
             session()->flush();
-            return redirect()->route('login-page')->with('success', 'Logout Successfully');
+            return to_route('login-page')->with('success', 'Logout Successfully');
         }
-        return 'blalbalbla';
+        return to_route('home');
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container mt-5">
-    <form action="/book/{{$book->slug}}" method="POST">
+    <form action="{{ route('book.update', [$book->slug]) }}" method="POST">
         @method('PUT')
         @csrf 
         <div class="mb-3">

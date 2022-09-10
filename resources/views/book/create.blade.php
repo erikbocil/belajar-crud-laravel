@@ -4,7 +4,7 @@
 
 <div class="container d-flex justify-content-center mt-5 mb-5">
     <div class="col-6">
-        <form action="/book" method="POST">
+        <form action="{{ route('book.store') }}" method="POST">
             @csrf 
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>

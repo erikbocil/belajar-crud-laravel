@@ -28,9 +28,9 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="password-confirmation" class="form-label">Password Again</label>
-                <input type="password" class="form-control @error('password-confirmation') is-invalid @enderror" id="password-confirmation" name="password-confirmation" placeholder="Enter password">
-                @error('password-confirmation')
+                <label for="password_confirmation" class="form-label">Password Again</label>
+                <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" placeholder="Enter password">
+                @error('password_confirmation')
                     <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
