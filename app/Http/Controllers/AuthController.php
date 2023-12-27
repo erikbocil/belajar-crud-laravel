@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -17,17 +18,12 @@ class AuthController extends Controller
 
     public function loginUser(LoginRequest $request)
     {
-        $request->validated();
-        $user = User::where('username', '=', $request->username)->first();
-        if (!$user) {
-            return to_route('login.page')->with('error', 'Username not found');
+        $credentials = $request->validated();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('book.index'));
         }
-        if (!Hash::check($request->password, $user->password)) {
-            return to_route('login.page')->with('error', 'Password is wrong');
-        }
-        $request->session()->put('loginId', $user->id);
-        $request->session()->put('name', $user->username);
-        return to_route('book.index');
+        return to_route('home')->with('error', 'Login Failed')->withInput();
     }
 
     public function register()
@@ -38,15 +34,14 @@ class AuthController extends Controller
     public function registerUser(RegisterRequest $request)
     {
         User::create($request->validated());
-        return to_route('login-page')->with('success', 'Register Successfully');
+        return to_route('login.page')->with('success', 'Register Successfully');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        if (session()->has('loginId')) {
-            session()->flush();
-            return to_route('login-page')->with('success', 'Logout Successfully');
-        }
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return to_route('home');
     }
 }

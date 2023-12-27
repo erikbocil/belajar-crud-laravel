@@ -17,7 +17,7 @@ class AuthCheck
     public function handle(Request $request, Closure $next)
     {
         if (!session()->has('loginId')) {
-            return to_route('login-page')->with('error', 'Login Dulu');
+            return to_route('login.page')->with('error', 'Login Dulu');
         }
         return $next($request);
     }

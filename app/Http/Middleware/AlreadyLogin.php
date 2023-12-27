@@ -17,7 +17,7 @@ class AlreadyLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        $route = [route('login-page'), route('register-page'), route('home')];
+        $route = [route('login.page'), route('register.page'), route('home')];
         if (session()->has('loginId') && in_array($request->url(), $route)) {
             return to_route('book.index');
         }

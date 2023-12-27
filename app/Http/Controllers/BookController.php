@@ -6,6 +6,8 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 
+use function GuzzleHttp\Promise\all;
+
 class BookController extends Controller
 {
     /**

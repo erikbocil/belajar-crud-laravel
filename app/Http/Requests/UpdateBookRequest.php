@@ -30,6 +30,7 @@ class UpdateBookRequest extends FormRequest
             'author' => 'required',
             'price' => 'required|numeric',
             'description' => 'nullable',
+            'slug' => 'string',
         ];
     }
 
